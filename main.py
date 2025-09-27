@@ -72,7 +72,7 @@ def main():
         f"project = {os.getenv("JIRA_PROJECT")} AND status = {os.getenv("JIRA_STATUS")} AND type IN ({os.getenv("JIRA_ISSUE_TYPES")}) AND labels IN ({os.getenv("JIRA_ISSUE_LABELS")})",
         maxResults=0)
 
-    print(f"find {len(issues)} issues in testing status")
+    print(f"find {len(issues)} issues in {os.getenv("JIRA_STATUS")} status")
 
     for issue in issues:
         print(f"processing issue {issue.key}")
@@ -82,7 +82,7 @@ def main():
                                issue.fields.labels, epic.key if epic else None, epic.fields.summary if epic else None,
                                epic.fields.issuetype.name if epic else None]
 
-    print("writing report to file")
+    print(f"writing report to file {os.getcwd()}/report.md")
     with open("report.md", "w") as f:
         f.write(generate_report(df))
 
