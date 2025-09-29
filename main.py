@@ -1,5 +1,7 @@
+import argparse
 import datetime
 import os
+import sys
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -63,16 +65,19 @@ def generate_report(df: pd.DataFrame) -> str:
     return content
 
 
-def main():
+def main(date: datetime.date):
+    days_difference = (datetime.date.today() - date).days if date else 30
+    jira_updated = f"-{days_difference}d"
+
     df = pd.DataFrame(
         columns=["issue_key", "issue_name", "issue_description", "issue_type", "issue_labels", "epic_key",
                  "epic_name", "epic_type"])
     issues = jira_client.search_issues(
-        f"project = {os.getenv("JIRA_PROJECT")} AND status = {os.getenv("JIRA_STATUS")} AND type IN (Sviluppo,Bug)",
+        f"project = {os.getenv("JIRA_PROJECT")} AND status = {os.getenv("JIRA_STATUS")} AND type IN (Sviluppo,Bug) AND updated >= {jira_updated}",
         maxResults=0)
 
     print(
-        f"find {len(issues)} issues in the {os.getenv("JIRA_STATUS")} status of the {os.getenv('JIRA_PROJECT')} project")
+        f"find {len(issues)} issues in the {os.getenv("JIRA_STATUS")} status of the {os.getenv('JIRA_PROJECT')} project from last {days_difference} days")
     print("processing issues...")
 
     for issue in tqdm(issues):
@@ -89,4 +94,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Generate JIRA changelog report')
+    parser.add_argument('--date', type=lambda s: datetime.datetime.strptime(s, '%Y-%m-%d').date(),
+                        help='Start date for report generation (YYYY-MM-DD format)')
+    args = parser.parse_args()
+    try:
+        main(args.date)
+    except KeyboardInterrupt:
+        sys.exit(0)
