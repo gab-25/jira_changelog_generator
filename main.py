@@ -73,7 +73,7 @@ def main(date: datetime.date):
         columns=["issue_key", "issue_name", "issue_description", "issue_type", "issue_labels", "epic_key",
                  "epic_name", "epic_type"])
     issues = jira_client.search_issues(
-        f"project = {os.getenv("JIRA_PROJECT")} AND status = {os.getenv("JIRA_STATUS")} AND type IN (Sviluppo,Bug) AND updated >= {jira_updated}",
+        f"project IN ({os.getenv("JIRA_PROJECT")}) AND status = {os.getenv("JIRA_STATUS")} AND type IN (Sviluppo,Bug) AND updated >= {jira_updated}",
         maxResults=0)
 
     print(
