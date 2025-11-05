@@ -58,7 +58,7 @@ def generate_report(df: pd.DataFrame) -> str:
 
             df_bugfixes: pd.DataFrame = df_issue[(df_issue["issue_type"] == "Bug")][["issue_key", "issue_name"]]
             if not df_bugfixes.empty:
-                content += "**Bugfixes:**\n"
+                content += "**Bugfixes:**\n" if df_features.empty else "\n**Bugfixes:**\n"
                 for _, issue_key, issue_name in df_bugfixes.itertuples():
                     content += f"- [{issue_key}]({os.getenv("JIRA_HOST")}/browse/{issue_key}) {issue_name}\n"
 
