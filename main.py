@@ -66,7 +66,7 @@ def generate_report(df: pd.DataFrame) -> str:
 
 
 def main(date: datetime.date):
-    days_difference = (datetime.date.today() - date).days if date else 30
+    days_difference = ((datetime.date.today() - date).days if date else 0) + 1
     jira_updated = f"-{days_difference}d"
 
     df = pd.DataFrame(
