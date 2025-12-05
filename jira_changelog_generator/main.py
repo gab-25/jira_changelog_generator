@@ -93,7 +93,7 @@ def main(date: datetime.date):
     print(f"writing report to file {os.getcwd()}/report.md")
 
 
-if __name__ == "__main__":
+def run():
     parser = argparse.ArgumentParser(description='Generate JIRA changelog report')
     parser.add_argument('--date', type=lambda s: datetime.datetime.strptime(s, '%Y-%m-%d').date(),
                         help='Start date for report generation (YYYY-MM-DD format)')
@@ -102,3 +102,7 @@ if __name__ == "__main__":
         main(args.date)
     except KeyboardInterrupt:
         sys.exit(0)
+
+
+if __name__ == "__main__":
+    run()

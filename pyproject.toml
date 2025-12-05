@@ -3,7 +3,7 @@ name = "jira-changelog-generator"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "gab-25",email = "gabrielesorci.25@gmail.com"}
+    { name = "gab-25", email = "gabrielesorci.25@gmail.com" }
 ]
 readme = "README.md"
 requires-python = ">=3.13"
@@ -13,6 +13,9 @@ dependencies = [
     "pandas (>=2.3.3,<3.0.0)",
     "tqdm (>=4.67.1,<5.0.0)"
 ]
+
+[project.scripts]
+jira-changelog-generator = 'jira_changelog_generator.main:run'
 
 
 [build-system]
