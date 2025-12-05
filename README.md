@@ -13,7 +13,7 @@ application (using Jira labels) and by epic, separating new features from bug fi
 1. Clone this repository to your computer.
 2. Install the necessary dependencies by running the following command from the project root:
    ```bash
-   pip install -r requirements.txt
+   pip install .
    ```
 
 ## Configuration
